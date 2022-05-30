@@ -98,7 +98,7 @@ cd ..
 
 kubectl apply -f workload/yamls/gateway-self-signed.yaml
 
-kubectl apply -f workload/yamls/VS-self-signed.yaml
+kubectl apply -f workload/yamls/VS-TLS.yaml
 
 ```
 
@@ -140,7 +140,5 @@ kubectl create -n istio-system secret tls sashvin-credential --key=private.key -
 cd ..
 
 kubectl apply -f workload/yamls/gateway-ca.yaml
-
-kubectl apply -f workload/yamls/VS-ca.yaml
 
 ```

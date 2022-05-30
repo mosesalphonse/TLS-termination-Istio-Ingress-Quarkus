@@ -118,3 +118,29 @@ curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cac
 curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/stream/{count}/{name}" -v
 
 ```
+## Apply CA Signed certificate (For Production Systems)
+
+Note: Make sure you should have CA(Certificate Authority) signed certificate and private key before starting this step
+
+### Create secrets in Kubernetes
+
+```
+cd ..
+
+mkdir cert-ca
+
+cd cert-ca
+
+kubectl create -n istio-system secret tls sashvin-credential --key=private.key --cert=certificate.crt
+
+```
+### Update Port, Protocol, secrets and Host in Gateway
+
+```
+cd ..
+
+kubectl apply -f workload/yamls/gateway-ca.yaml
+
+kubectl apply -f workload/yamls/VS-ca.yaml
+
+```

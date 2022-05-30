@@ -72,12 +72,45 @@ curl $INGRESS_IP/hello/stream/{count}/{name}
 ### Create Self Signed Certificate
 
 ```
-export DOMAIN_NAME={domainname}
+cd cert-self-signed
+
+export DOMAIN_NAME={domainname, example sashvinmoses.tk}
 
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=$DOMAIN_NAME Inc./CN=$DOMAIN_NAME' -keyout $DOMAIN_NAME.key -out $DOMAIN_NAME.crt
 
 openssl req -out sash.$DOMAIN_NAME.csr -newkey rsa:2048 -nodes -keyout sash.$DOMAIN_NAME.key -subj "/CN=$DOMAIN_NAME/O=hello from $DOMAIN_NAME"
 
 openssl x509 -req -days 365 -CA $DOMAIN_NAME.crt -CAkey $DOMAIN_NAME.key -set_serial 0 -in sash.$DOMAIN_NAME.csr -out sash.$DOMAIN_NAME.crt
+
+```
+### Create secrets in Kubernetes
+
+```
+kubectl create -n istio-system secret tls sash-credential --key=sash.sashvinmoses.tk.key --cert=sash.sashvinmoses.tk.crt
+
+```
+### Update Port, Protocol, secrets and Host in Gateway
+
+```
+cd ..
+
+kubectl apply -f workload/yamls/gateway-self-signed.yaml
+
+kubectl apply -f workload/yamls/VS-self-signed.yaml
+
+```
+
+### Veify (with Self Signed certificate)
+
+```
+export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello" -v
+
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/greeting/{name}" -v
+
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/greeting/{count}/{name}" -v
+
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/stream/{count}/{name}" -v
 
 ```

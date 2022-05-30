@@ -103,6 +103,8 @@ kubectl apply -f workload/yamls/VS-self-signed.yaml
 ### Veify (with Self Signed certificate)
 
 ```
+cd cd cert-self-signed
+
 export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello" -v

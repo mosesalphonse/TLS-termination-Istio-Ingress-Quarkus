@@ -122,6 +122,20 @@ curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cac
 
 Note: Make sure you should have CA(Certificate Authority) signed certificate and private key before starting this step
 
+### Some hint to create your own free domain
+
+
+```
+Sign in into https://my.freenom.com/ using your google account
+
+Register a new domain, refer the below screenshot
+
+![image](https://user-images.githubusercontent.com/16347988/171029594-a86d9b9c-b3ae-4617-bd39-fb5273c33c8a.png)
+
+Makesure you checkout so that you will get free domain. I created 'sashvinmoses.dk' for this demo
+
+```
+
 ### Create secrets in Kubernetes
 
 ```

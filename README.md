@@ -142,3 +142,14 @@ cd ..
 kubectl apply -f workload/yamls/gateway-ca.yaml
 
 ```
+### Veify (with CA Signed certificate) in Web Browser
+
+
+```
+
+https://sashvinmoses.tk/hello
+https://sashvinmoses.tk/hello/greeting/Moses
+https://sashvinmoses.tk/hello/greeting/10/sashvin
+https://sashvinmoses.tk/hello/stream/15/Moses
+
+```

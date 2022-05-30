@@ -26,3 +26,5 @@ Registerd Domain
 <li>
 CA Signed certificate on the above domain
 </li>
+
+## Deploy Workload

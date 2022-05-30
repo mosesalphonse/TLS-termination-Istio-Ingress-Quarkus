@@ -28,3 +28,42 @@ CA Signed certificate on the above domain
 </li>
 
 ## Deploy Workload
+
+```
+git clone https://github.com/mosesalphonse/TLS-termination-Istio-Ingress-Quarkus.git
+
+cd TLS-termination-Istio-Ingress-Quarkus
+
+cd Workload
+
+mvn clean package -Dmaven.test.skip=true -Dquarkus.container-image.push=true
+
+```
+Note : Verify the image in the GCR
+
+
+```
+cd ..
+
+kubectl apply -f workload/yamls/quarkus-deployment.yaml
+
+kubectl apply -f workload/yamls/gateway.yaml
+
+kubectl apply -f workload/yamls/VS.yaml
+
+```
+## Verify (There is no TLS applied for Istio Ingress Gateway)
+
+```
+export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+curl $INGRESS_IP/hello
+
+curl $INGRESS_IP/hello/greeting/{name}
+
+curl $INGRESS_IP/hello/greeting/{count}/{name}
+
+curl $INGRESS_IP/hello/stream/{count}/{name}
+
+
+```

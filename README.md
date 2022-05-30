@@ -72,6 +72,8 @@ curl $INGRESS_IP/hello/stream/{count}/{name}
 ### Create Self Signed Certificate
 
 ```
+mkdir cert-self-signed
+
 cd cert-self-signed
 
 export DOMAIN_NAME={domainname, example sashvinmoses.tk}
@@ -103,7 +105,7 @@ kubectl apply -f workload/yamls/VS-self-signed.yaml
 ### Veify (with Self Signed certificate)
 
 ```
-cd cd cert-self-signed
+cd cert-self-signed
 
 export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 

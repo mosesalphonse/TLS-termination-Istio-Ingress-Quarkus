@@ -52,7 +52,7 @@ kubectl apply -f workload/yamls/gateway.yaml
 kubectl apply -f workload/yamls/VS.yaml
 
 ```
-## Verify (There is no TLS applied for Istio Ingress Gateway)
+### Verify (There is no TLS applied for Istio Ingress Gateway)
 
 ```
 export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -65,5 +65,19 @@ curl $INGRESS_IP/hello/greeting/{count}/{name}
 
 curl $INGRESS_IP/hello/stream/{count}/{name}
 
+
+```
+## Apply Self Signed certificate (usefull for Non-production env)
+
+### Create Self Signed Certificate
+
+```
+export DOMAIN_NAME={domainname}
+
+openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=$DOMAIN_NAME Inc./CN=$DOMAIN_NAME' -keyout $DOMAIN_NAME.key -out $DOMAIN_NAME.crt
+
+openssl req -out sash.$DOMAIN_NAME.csr -newkey rsa:2048 -nodes -keyout sash.$DOMAIN_NAME.key -subj "/CN=$DOMAIN_NAME/O=hello from $DOMAIN_NAME"
+
+openssl x509 -req -days 365 -CA $DOMAIN_NAME.crt -CAkey $DOMAIN_NAME.key -set_serial 0 -in sash.$DOMAIN_NAME.csr -out sash.$DOMAIN_NAME.crt
 
 ```

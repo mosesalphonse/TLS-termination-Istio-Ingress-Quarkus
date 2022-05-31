@@ -58,13 +58,15 @@ kubectl apply -f workload/yamls/VS.yaml
 export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 curl $INGRESS_IP/hello
-
+```
+```
 curl $INGRESS_IP/hello/greeting/Sashvin
-
+```
+```
 curl $INGRESS_IP/hello/greeting/10/Moses
-
+```
+```
 curl $INGRESS_IP/hello/stream/15/Sash
-
 
 ```
 ## Apply Self Signed certificate (usefull for Non-production env)
@@ -75,8 +77,9 @@ curl $INGRESS_IP/hello/stream/15/Sash
 mkdir cert-self-signed
 
 cd cert-self-signed
-
-export DOMAIN_NAME={domainname, example sashvinmoses.tk}
+```
+```
+export DOMAIN_NAME=sashvinmoses.tk
 
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=$DOMAIN_NAME Inc./CN=$DOMAIN_NAME' -keyout $DOMAIN_NAME.key -out $DOMAIN_NAME.crt
 
@@ -108,14 +111,18 @@ kubectl apply -f workload/yamls/VS-TLS.yaml
 cd cert-self-signed
 
 export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-
+```
+```
 curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello" -v
-
-curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/greeting/{name}" -v
-
-curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/greeting/{count}/{name}" -v
-
-curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/stream/{count}/{name}" -v
+```
+```
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/greeting/Sash" -v
+```
+```
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/greeting/5/Moses" -v
+```
+```
+curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cacert sash.sashvinmoses.tk.crt "https://sashvinmoses.tk:443/hello/stream/6/Sash" -v
 
 ```
 ## Apply CA Signed certificate (For Production Systems)
@@ -183,10 +190,15 @@ kubectl apply -f workload/yamls/gateway-ca.yaml
 
 
 ```
-
 https://sashvinmoses.tk/hello
+```
+```
 https://sashvinmoses.tk/hello/greeting/Moses
+```
+```
 https://sashvinmoses.tk/hello/greeting/10/sashvin
+```
+```
 https://sashvinmoses.tk/hello/stream/15/Moses
 
 ```

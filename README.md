@@ -133,11 +133,23 @@ Register a new domain, refer the below screenshot
 
 Makesure you checkout so that you will get free domain. 
 
-I created 'sashvinmoses.dk' for this demo
 
 ### Some hint to create free TLS certificate
 
+a) Signin into https://zerossl.com/
 
+b) Click New Certificate as shown in the below screenshot below
+![image](https://user-images.githubusercontent.com/16347988/171122979-0243aff9-05d2-4c08-8952-24b08db05360.png)
+
+c) Follow the steps, you may choose different verification methods, If you want to use DNS(CNAME), please refer the below steps
+
+![image](https://user-images.githubusercontent.com/16347988/171123849-995f09f9-b2d6-4295-bd95-706d86e35ce9.png)
+  
+   i) Copy the 'Name' and 'Point To' values, these values to be configured in the DNS provider, for this example, these values to be updated in 'https://my.freenom.com/' as shown in the below screenshot
+   
+   ![image](https://user-images.githubusercontent.com/16347988/171124870-e844b51d-af40-4cc2-a9da-76585eef4040.png)
+
+Note: CNAME record values shoule be copied from the TLS provider as I shown in the above screenshot. A record vlue is your Istio Ingress Gateway's external IP address.
 
 ### Create secrets in Kubernetes
 

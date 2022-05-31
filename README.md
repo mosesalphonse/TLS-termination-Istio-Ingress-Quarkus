@@ -1,5 +1,5 @@
-# TLS-termination-Istio-Ingress- Gateway - Quarkus
-This Repo may help you to set up TLS termination on Istio Ingress Gateway with Self Signed and CA signed for Quarkus workloads
+# TLS-termination-POC-Istio-Ingress- Gateway - Quarkus
+This POC Repo may help you to set up TLS termination on Istio Ingress Gateway with Self Signed and CA signed for Quarkus workloads
 
 ## POC:
 <li>
@@ -21,10 +21,10 @@ Kubernetes Cluster (tested on gke)
 Istio Instalation (tested on istio-1.13.4)
 </li>
 <li>
-Registerd Domain
+Registerd Domain (Some hint are added to create a free domain name)
 </li>
 <li>
-CA Signed certificate on the above domain
+CA Signed certificate on the above domain (Some hint are added to obtain TLS certificate from CA for free)
 </li>
 
 ## Deploy Workload
@@ -34,7 +34,7 @@ git clone https://github.com/mosesalphonse/TLS-termination-Istio-Ingress-Quarkus
 
 cd TLS-termination-Istio-Ingress-Quarkus
 
-cd Workload
+cd workload
 
 mvn clean package -Dmaven.test.skip=true -Dquarkus.container-image.push=true
 
@@ -185,6 +185,12 @@ cd ..
 
 kubectl apply -f workload/yamls/gateway-ca.yaml
 
+```
+### Optional Workaround, Install Cert Manager
+
+In case if that not works, try to install cert-manager manually, its a workaround
+```
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
 ```
 ### Veify (with CA Signed certificate) in Web Browser
 

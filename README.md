@@ -59,11 +59,11 @@ export INGRESS_IP=$(kubectl get svc istio-ingressgateway -n istio-system -o json
 
 curl $INGRESS_IP/hello
 
-curl $INGRESS_IP/hello/greeting/{name}
+curl $INGRESS_IP/hello/greeting/Sashvin
 
-curl $INGRESS_IP/hello/greeting/{count}/{name}
+curl $INGRESS_IP/hello/greeting/10/Moses
 
-curl $INGRESS_IP/hello/stream/{count}/{name}
+curl $INGRESS_IP/hello/stream/15/Sash
 
 
 ```
@@ -120,8 +120,6 @@ curl -H "Host:sashvinmoses.tk" --resolve "sashvinmoses.tk:443:$INGRESS_IP" --cac
 ```
 ## Apply CA Signed certificate (For Production Systems)
 
-Note: Make sure you should have CA(Certificate Authority) signed certificate and private key before starting this step
-
 ### Some hint to create your own free domain
 
 
@@ -149,7 +147,13 @@ c) Follow the steps, you may choose different verification methods, If you want 
    
    ![image](https://user-images.githubusercontent.com/16347988/171124870-e844b51d-af40-4cc2-a9da-76585eef4040.png)
 
-Note: CNAME record values shoule be copied from the TLS provider as I shown in the above screenshot. A record vlue is your Istio Ingress Gateway's external IP address.
+Note: CNAME record values shoule be copied from the TLS provider as I shown in the above screenshot. A record value is your Istio Ingress Gateway's external IP address.
+
+d) Once you have updated CNAME on your DNS provider, it may take around 15 minitues to reflect the changes, then you can able to verify it. Once you have completed all the steps, you can download the certificate bundles which consist of Certificate, Private key and CA bundle.
+
+
+Note: Make sure you should have CA(Certificate Authority) signed certificate and private key before starting this step. The above hint may guide you to obtain new domain and TLS certificate.
+
 
 ### Create secrets in Kubernetes
 
@@ -160,6 +164,10 @@ mkdir cert-ca
 
 cd cert-ca
 
+```
+Note: Make sure upload your certificate, private key in this folder. You may use secured vault to keep these sensitive values as well like hashicorp, AWS secrets manager etc
+
+```
 kubectl create -n istio-system secret tls sashvin-credential --key=private.key --cert=certificate.crt
 
 ```
